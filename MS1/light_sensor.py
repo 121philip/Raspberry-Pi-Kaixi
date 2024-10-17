@@ -7,7 +7,7 @@ from grove.grove_light_sensor_v1_2 import GroveLightSensor
  
 def main():
     # Grove - Servo connected to PWM port
-    servo = GroveServo(12)SSSS
+    servo = GroveServo(12)
  
     # Grove - Light Sensor connected to port A0
     sensor = GroveLightSensor(0)
