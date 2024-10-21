@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 # 引入Adafruit_DHT
 import time
-import Adafruit_DHT
+#import Adafruit_DHT
 from seeed_dht import DHT
 import csv
 
