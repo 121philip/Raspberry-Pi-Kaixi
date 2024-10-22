@@ -24,7 +24,7 @@ def data_read_write():
     header = ['temperature', 'humidity']
     csv_write.writerow(header)
 
-    for i in range(100):
+    for i in range(10):
         plt.clf()  # 清除刷新前的图表，防止数据量过大消耗内存
         # 读取温湿度数据到temp和hu两个变量中
         hu, temp = sensor.read()
