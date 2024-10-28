@@ -15,29 +15,30 @@ import paho.mqtt.client as mqtt
 import time
 import csv
 import sys
+import ssl
 
 """
 parameters
 """
-connected = False
-Messagerreceived = False
-broker = "136.144.226.85"
-port = 8884
-user = "imp"
-password = "testmqtt"
+BROKER_ADDRESS = "set-p-gt-01-mqtt.bm.icts.kuleuven.be"
+PORT = 1883
+USERNAME = "ee2-all"
+PASSWORD = "ee2-all"
+TOPIC = "test/topic"
 Message = []
 filename = "distance_data.csv"
 
 
+# Callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        print("client is connected")
-        global connected
-        connected = True
+        print("Connected successfully to broker")
+        # Subscribe to topic upon successful connection
     else:
-        print("client is not connected")
+        print("Connection failed with code {}".format(rc))
 
 
+# Callback for when a message is received from the server.
 def on_message(client, userdata, message):
     print("Message received: " + str(message.payload.decode("utf-8")))
     print("Topic: " + str(message.topic))
@@ -65,17 +66,29 @@ def on_publish(client, userdata, mid):
 main programs
 """
 client = mqtt.Client()
+
+# Set TLS parameters for a secure connection
+client.tls_set(
+    ca_certs="A:\OneDrive - KU Leuven\Master\Student Assistant\Raspberry-Pi-Kaixi\ca 1.crt",
+    # Path to the CA certificate file
+    certfile=None,
+    keyfile=None,
+    tls_version=ssl.PROTOCOL_TLSv1_2,
+    ciphers=None
+)
+
 client.on_message = on_message
-client.username_pw_set(user, password=password)
+client.username_pw_set(USERNAME, password=PASSWORD)
 client.on_connect = on_connect
-client.connect(broker, port=port)
+client.connect(BROKER_ADDRESS, port=PORT)
 # client.disconnect()
 # client.loop_start()
-client.subscribe("distance_C4")
+client.subscribe("distance_KAIXI")
 
 # while not Messagerreceived:
 #     time.sleep(0.2)
 #     if len(Message) >= 10:
 
 # sys.exit()
+# Blocking loop to process network traffic and dispatch callbacks
 client.loop_forever()

@@ -22,15 +22,16 @@ from grove.grove_ryb_led_button import GroveLedButton
 import paho.mqtt.client as mqtt
 import json
 import sys
+import ssl
 
 
 """
 parameters
 """
-broker = "136.144.226.85"
-port = 8884
-username = "imp"
-password = "testmqtt"
+BROKER_ADDRESS = "set-p-gt-01-mqtt.bm.icts.kuleuven.be"
+PORT = 1883
+USERNAME = "ee2-all"
+PASSWORD = "ee2-all"
 conn_flag = False
 
 
@@ -127,11 +128,23 @@ def process_message(client, msg, topic):
 main programs
 """
 client = mqtt.Client()  # create client object
-client.username_pw_set(username, password=password)
+
+# Set TLS parameters for a secure connection
+client.tls_set(
+    ca_certs="A:\OneDrive - KU Leuven\Master\Student Assistant\Raspberry-Pi-Kaixi\ca 1.crt",
+    # Path to the CA certificate file
+    certfile=None,
+    keyfile=None,
+    tls_version=ssl.PROTOCOL_TLSv1_2,
+    ciphers=None
+)
+
+
+client.username_pw_set(USERNAME, password=PASSWORD)
 client.on_log = on_log
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
-client.connect(broker, port)  # establish connection
+client.connect(BROKER_ADDRESS, PORT)  # establish connection
 
 
 time_wait = 0
