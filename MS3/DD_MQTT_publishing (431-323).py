@@ -85,7 +85,7 @@ def Data_read_write():
         time.sleep(0.5)
         position = {
             "distance": distance,
-            "led": "True",
+            "led": "True" if distance < 5 else "False",
         }
         jout = json.dumps(position)
         print("data: ", jout)
