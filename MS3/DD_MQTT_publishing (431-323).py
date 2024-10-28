@@ -89,7 +89,7 @@ def Data_read_write():
         }
         jout = json.dumps(position)
         print("data: ", jout)
-        client.publish("distance_C4", jout)
+        client.publish("distance_KAIXI", jout)
     plt.ioff()  # 关闭画图的窗口，即关闭交互模式
     plt.show()  # 显示图片，防止闪退
     f.close()
@@ -131,7 +131,7 @@ client = mqtt.Client()  # create client object
 
 # Set TLS parameters for a secure connection
 client.tls_set(
-    ca_certs="A:\OneDrive - KU Leuven\Master\Student Assistant\Raspberry-Pi-Kaixi\ca 1.crt",
+    ca_certs="/home/pi/Raspberry-Pi-Kaixi/ca 1.crt",
     # Path to the CA certificate file
     certfile=None,
     keyfile=None,
